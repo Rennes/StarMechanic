@@ -24,6 +24,8 @@ public class MaskScript : MonoBehaviour
     public AudioSource terramorphingSound;
     public float terramorphinDefaultVolume = 1;
 
+    public GameObject Point;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -95,6 +97,8 @@ public class MaskScript : MonoBehaviour
 
             if (maskTransform.localScale.x >= MaximumScale)
             {
+                Point.SetActive(false);
+
                 transform.parent.GetComponent<BoxCollider2D>().enabled = true;
                 IsFull = true;
                 return;

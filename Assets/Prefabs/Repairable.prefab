@@ -5115,6 +5115,7 @@ MonoBehaviour:
     m_Bits: 512
   terramorphingSound: {fileID: 1459677518}
   terramorphinDefaultVolume: 1
+  Point: {fileID: 2575040707829552224}
 --- !u!82 &1459677518
 AudioSource:
   m_ObjectHideFlags: 0
