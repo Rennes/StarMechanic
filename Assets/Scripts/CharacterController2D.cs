@@ -40,8 +40,12 @@ public class CharacterController2D : MonoBehaviour
 
     public AudioSource finishAudio;
 
+    public static CharacterController2D Instance;
+
     private void Awake()
     {
+        Instance = this;
+
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
         if (OnLandEvent == null)
@@ -174,24 +178,20 @@ public class CharacterController2D : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Finish")
-        {
-            finishAudio.Play();
-
-            canMove = false;
-
-            Debug.Log("changing levels!");
-
-            StartCoroutine(WaitTillNextLevel());
-        }
-        else if(collision.gameObject.tag == "Death")
+        if (collision.gameObject.tag == "Death")
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
-    IEnumerator WaitTillNextLevel()
+    public IEnumerator WaitTillNextLevel()
     {
+        finishAudio.Play();
+
+        canMove = false;
+
+        Debug.Log("changing levels!");
+
         yield return new WaitForSeconds(WaitNextLevelTime);
 
         var activeScene = SceneManager.GetActiveScene().buildIndex;

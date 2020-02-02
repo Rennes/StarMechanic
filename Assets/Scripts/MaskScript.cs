@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MaskScript : MonoBehaviour
 {
@@ -95,12 +96,18 @@ public class MaskScript : MonoBehaviour
             if (!BuildingParts.isPlaying)
                 BuildingParts.Play();
 
-            if (maskTransform.localScale.x >= MaximumScale)
+            if (maskTransform.localScale.x >= MaximumScale && !IsFull)
             {
                 Point.SetActive(false);
 
                 transform.parent.GetComponent<BoxCollider2D>().enabled = true;
                 IsFull = true;
+
+                if(this.tag == "Finish")
+                {
+                    Finish();
+                }
+
                 return;
             }
 
@@ -140,19 +147,9 @@ public class MaskScript : MonoBehaviour
         isHoldingMouseButton = false;
     }
 
-    //private void OnMouseDrag()
-    //{
-    //    isHoldingMouseButton = true;
 
-    //    //Debug.Log("YEP");
-    //}
-
-    //private void OnMouseUp()
-    //{
-    //    animator.SetBool("isRepairing", false);
-
-    //    if (BuildingParts.isPlaying)
-    //        BuildingParts.Stop();
-    //    isHoldingMouseButton = false;
-    //}
+    private void Finish()
+    {
+        StartCoroutine(CharacterController2D.Instance.WaitTillNextLevel());
+    }
 }

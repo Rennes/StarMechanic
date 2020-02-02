@@ -4944,6 +4944,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 512
+  terramorphingSound: {fileID: 0}
+  terramorphinDefaultVolume: 1
+  Point: {fileID: 0}
 --- !u!1 &826854544783844696
 GameObject:
   m_ObjectHideFlags: 0
