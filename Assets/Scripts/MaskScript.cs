@@ -36,18 +36,18 @@ public class MaskScript : MonoBehaviour
         if (Input.GetMouseButton(0) && !animator.GetBool("isMoving"))
         {
             RaycastHit2D hit= Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, layerMask);
-            if (hit)
+            if (hit.transform == this.transform)
             {
                 Debug.Log("hit");
                 Debug.Log(hit.transform.gameObject.name);
                 isHoldingMouseButton = true;
             }
-            else
+            else if(isHoldingMouseButton)
             {
                 FailedHit();
             }
         }
-        else
+        else if(isHoldingMouseButton)
         {
             FailedHit();
         }
