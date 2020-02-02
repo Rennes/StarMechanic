@@ -21,6 +21,9 @@ public class MaskScript : MonoBehaviour
 
     public LayerMask layerMask;
 
+    public AudioSource terramorphingSound;
+    public float terramorphinDefaultVolume = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +56,22 @@ public class MaskScript : MonoBehaviour
         {
             animator.SetBool("isRepairing", false);
 
+            IEnumerator stopSlowlyTerramorphingSound()
+            {
+                while(terramorphingSound.volume>=0)
+                {
+                    yield return new WaitForSeconds(0.05f);
+                    terramorphingSound.volume -= 0.05f;
+                }
+
+                terramorphingSound.Stop();
+            }
+
+            if (terramorphingSound.isPlaying)
+            {
+                StartCoroutine(stopSlowlyTerramorphingSound());
+            }
+
             if (BuildingParts.isPlaying)
                 BuildingParts.Stop();
             return;
@@ -65,11 +84,18 @@ public class MaskScript : MonoBehaviour
                 return;
             }
 
+            if(!terramorphingSound.isPlaying)
+            {
+                terramorphingSound.volume = terramorphinDefaultVolume;
+                terramorphingSound.Play();
+            }
+
             if (!BuildingParts.isPlaying)
                 BuildingParts.Play();
 
             if (maskTransform.localScale.x >= MaximumScale)
             {
+                transform.parent.GetComponent<BoxCollider2D>().enabled = true;
                 IsFull = true;
                 return;
             }
@@ -91,6 +117,12 @@ public class MaskScript : MonoBehaviour
                 maskTransform.localScale = new Vector3(maskTransform.localScale.x - DecreaseSpeed * Time.deltaTime,
                     maskTransform.localScale.y - DecreaseSpeed * Time.deltaTime,
                     maskTransform.localScale.z);
+
+                terramorphingSound.volume = maskTransform.localScale.x / MaximumScale;
+                if(maskTransform.localScale.x<=0)
+                {
+                    terramorphingSound.Stop();
+                }
             }
         }
     }

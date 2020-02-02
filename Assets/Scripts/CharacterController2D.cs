@@ -38,6 +38,8 @@ public class CharacterController2D : MonoBehaviour
 
     public float WaitNextLevelTime = 2;
 
+    public AudioSource finishAudio;
+
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -167,16 +169,25 @@ public class CharacterController2D : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        canMove = false;
+        if(collision.gameObject.tag == "Finish")
+        {
+            finishAudio.Play();
 
-        Debug.Log("changing levels!");
+            canMove = false;
 
-        StartCoroutine(WaitTillNextLevel());
+            Debug.Log("changing levels!");
 
+            StartCoroutine(WaitTillNextLevel());
+        }
+        else if(collision.gameObject.tag == "Death")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     IEnumerator WaitTillNextLevel()
