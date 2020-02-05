@@ -5225,7 +5225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsFull: 0
-  IncreaseSpeed: 3
+  IncreaseSpeed: 3.9
   DecreaseSpeed: 1
   BuildingParts: {fileID: 695757219295890246}
   MaximumScale: 20
